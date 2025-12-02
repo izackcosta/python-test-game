@@ -10,4 +10,4 @@ def draw():
     player.draw()
 
 def update():
-    pass
+    player.update()

@@ -4,9 +4,11 @@ class GameActor(Actor):
     
     Framerate = 12
 
-    def __init__(self, image, x, y):
+    def __init__(self, image, x, y, speed):
 
         super().__init__(image, (x, y))
+
+        self.speed = speed
 
         self.animations = {
 
@@ -32,3 +34,6 @@ class GameActor(Actor):
             self.current_frame = (self.current_frame + 1) % len(self.current_animation)
             self.image = self.current_animation[self.current_frame]
         super().draw()
+
+    def move(self, dx):
+        self.x += dx * self.speed
