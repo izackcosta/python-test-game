@@ -9,12 +9,14 @@ class GameActor(Actor):
         super().__init__(image, (x, y))
 
         self.animations = {
-            'idle_right': [
-            'knight_idle_right_0.png',
-            'knight_idle_right_1.png',
-            'knight_idle_right_2.png',
-            'knight_idle_right_3.png'
-        ],
+
+            'idle_right': [],
+
+            'idle_left': [],
+
+            'walk_right': [],
+
+            'walk_left': []
 
         }
 
@@ -22,7 +24,7 @@ class GameActor(Actor):
 
         self.current_frame = 0
 
-        self.current_animation = self.animations['idle_right']
+        self.current_animation = None
     
     def draw(self):
         self.animation_timer += 1
