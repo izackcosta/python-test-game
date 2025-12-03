@@ -6,7 +6,7 @@ class Player(GameActor):
 
     def __init__(self, grid, scenario):
 
-        super().__init__('hero_idle_right_0', 1, 0, grid, 2)
+        super().__init__('hero_idle_right_0', 1, 13, grid, 2)
 
         self.animations['idle_right'] = [
             'hero_idle_right_0.png',
@@ -42,8 +42,6 @@ class Player(GameActor):
 
         self.current_animation = self.animations['idle_right']
 
-        self.direction = 0
-
         self.scenario = scenario
 
         self.score = 0
@@ -69,16 +67,16 @@ class Player(GameActor):
         if keyboard.right:
             if self.current_animation != self.animations['walk_right']:
                 self.current_animation = self.animations['walk_right']
-                self.direction = 0
-            self.move(1)
+                self.direction = GameActor.Direction['RIGHT']
+            self.move(self.direction)
 
         elif keyboard.left:
             if self.current_animation != self.animations['walk_left']:
                 self.current_animation = self.animations['walk_left']
-                self.direction = 1
-            self.move(-1)
+                self.direction = GameActor.Direction['LEFT']
+            self.move(self.direction)
 
-        elif self.direction == 0:
+        elif self.direction == GameActor.Direction['RIGHT']:
             self.current_animation = self.animations['idle_right']
 
         else:

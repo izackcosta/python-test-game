@@ -4,11 +4,20 @@ class GameActor(Actor):
     
     Framerate = 6
 
+    Direction ={
+        'RIGHT': 1,
+        'LEFT': -1
+    }
+
     def __init__(self, image, x, y, grid, speed):
 
         super().__init__(image, (0, 0))
 
+        grid.position_to_cell(self, x, y)
+
         self.speed = speed
+
+        self.direction = GameActor.Direction['RIGHT']
 
         self.animations = {}
 
@@ -17,8 +26,6 @@ class GameActor(Actor):
         self.current_frame = 0
 
         self.current_animation = None
-
-        grid.position_to_cell(self, x, y)
     
     def draw(self):
         self.animation_timer += 1
