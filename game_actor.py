@@ -13,7 +13,9 @@ class GameActor(Actor):
 
         super().__init__(image, (0, 0))
 
-        grid.position_to_cell(self, x, y)
+        self.grid = grid
+
+        self.grid.position_in_cell(self, x, y)
 
         self.speed = speed
 

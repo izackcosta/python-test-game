@@ -18,5 +18,8 @@ class Grid:
 
         return grid
     
-    def position_to_cell(self, prop, x, y):
-        prop.topleft = (self.grid[x][y][1], self.grid[x][y][0])
+    def position_in_cell(self, prop, x, y):
+        prop.topleft = (self.grid[y][x][0], self.grid[y][x][1])
+
+    def get_cell_x(self, x):
+        return x * self.cell_size + self.cell_size // 2

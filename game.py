@@ -4,6 +4,7 @@ from platform_2 import Platform
 from grid import Grid
 from scenario import Scenario
 from mushroom import Mushroom
+from goblin import Goblin
 
 WIDTH = 800
 HEIGHT = 640
@@ -27,7 +28,17 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 12, 19, grid),
                 Coin(5, 18, grid),
                 Coin(7, 18, grid),
-                Mushroom(6, 18, grid, -1)])
+                Mushroom(5, 18, grid, -1),
+                Mushroom(8, 18, grid, -1),
+                Platform('grass_platform.png', 15, 19, grid),
+                Platform('grass_platform.png', 19, 19, grid),
+                Platform('grass_platform.png', 20, 19, grid),
+                Platform('grass_platform.png', 21, 19, grid),
+                Platform('grass_platform.png', 22, 19, grid),
+                Platform('grass_platform.png', 23, 19, grid),
+                Platform('grass_platform.png', 24, 19, grid),
+                Goblin(21, 18, grid, (19, 24))
+                ])
 
 player = Player(grid, main_scenario)
 
