@@ -10,17 +10,7 @@ class GameActor(Actor):
 
         self.speed = speed
 
-        self.animations = {
-
-            'idle_right': [],
-
-            'idle_left': [],
-
-            'walk_right': [],
-
-            'walk_left': []
-
-        }
+        self.animations = {}
 
         self.animation_timer = 0
 
@@ -30,7 +20,7 @@ class GameActor(Actor):
     
     def draw(self):
         self.animation_timer += 1
-        if self.animation_timer % GameActor.Framerate == 0:
+        if self.animation_timer % GameActor.Framerate == 0 and self.current_animation:
             self.current_frame = (self.current_frame + 1) % len(self.current_animation)
             self.image = self.current_animation[self.current_frame]
         super().draw()
