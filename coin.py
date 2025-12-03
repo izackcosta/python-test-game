@@ -1,6 +1,6 @@
-from prop import Prop
+from pickable import Pickable
 
-class Coin(Prop):
+class Coin(Pickable):
 
     def __init__(self, x, y, grid):
 
@@ -22,3 +22,7 @@ class Coin(Prop):
         ]
 
         self.current_animation = self.animations['spin']
+
+    def pick(self, player, scenario):
+        player.score += 100
+        super().pick(player, scenario)

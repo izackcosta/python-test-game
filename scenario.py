@@ -5,3 +5,6 @@ class Scenario:
     def draw(self):
         for prop in self.props:
             prop.draw()
+
+    def remove_prop(self, prop):
+        self.props.remove(prop)
