@@ -2,7 +2,7 @@ from pgzero.actor import Actor
 
 class GameActor(Actor):
     
-    Framerate = 12
+    Framerate = 6
 
     def __init__(self, image, x, y, speed):
 

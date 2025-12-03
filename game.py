@@ -1,7 +1,7 @@
 from player import Player
 
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 640
+HEIGHT = 480
 
 player = Player()
 
