@@ -34,5 +34,8 @@ class GameActor(Actor):
             self.image = self.current_animation[self.current_frame]
         super().draw()
 
+    def update(self):
+        pass
+
     def move(self, dx):
         self.x += dx * self.speed

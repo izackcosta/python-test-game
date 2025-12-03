@@ -1,12 +1,13 @@
 from game_actor import GameActor
 from pgzero.keyboard import keyboard
 from pickable import Pickable
+from enemy import Enemy
 
 class Player(GameActor):
 
     def __init__(self, grid, scenario):
 
-        super().__init__('hero_idle_right_0', 1, 13, grid, 2)
+        super().__init__('hero_idle_right_0', 1, 18, grid, 2)
 
         self.animations['idle_right'] = [
             'hero_idle_right_0.png',
@@ -56,7 +57,16 @@ class Player(GameActor):
 
         self.last_position = (self.x, self.y)
 
+        self.alive = True
+
+    def draw(self):
+        if not self.alive:
+            return
+        super().draw()
+
     def update(self):
+        if not self.alive:
+            return
         self.last_position = (self.x, self.y)
         self.process_player_input()
         self.process_gravity()
@@ -84,8 +94,8 @@ class Player(GameActor):
 
         if keyboard.z and self.grounded:
             self.jump_accumulator += 0.2
-            if self.jump_accumulator > 0.7:
-                self.jump_accumulator = 0.7
+            if self.jump_accumulator > 0.5:
+                self.jump_accumulator = 0.5
                 self.delta = -self.jump_accumulator
                 self.jump_accumulator = 0
                 self.grounded = False
@@ -106,6 +116,9 @@ class Player(GameActor):
                 if  isinstance(prop, Pickable):
                     prop.pick(self, self.scenario)
                     continue
+
+                if isinstance(prop, Enemy):
+                    self.alive = False
             
                 if self.bottom > prop.top:
                     grounded = True
