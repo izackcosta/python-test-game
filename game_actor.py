@@ -4,9 +4,9 @@ class GameActor(Actor):
     
     Framerate = 6
 
-    def __init__(self, image, x, y, speed):
+    def __init__(self, image, x, y, grid, speed):
 
-        super().__init__(image, (x, y))
+        super().__init__(image, (0, 0))
 
         self.speed = speed
 
@@ -17,6 +17,8 @@ class GameActor(Actor):
         self.current_frame = 0
 
         self.current_animation = None
+
+        grid.position_to_cell(self, x, y)
     
     def draw(self):
         self.animation_timer += 1

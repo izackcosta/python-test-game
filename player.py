@@ -3,44 +3,40 @@ from pgzero.keyboard import keyboard
 
 class Player(GameActor):
 
-    def __init__(self):
+    def __init__(self, grid):
 
-        super().__init__('knight_idle_right_0', 100, 100, 2)
+        super().__init__('hero_idle_right_0', 1, 9, grid, 2)
 
         self.animations['idle_right'] = [
-            'knight_idle_right_0.png',
-            'knight_idle_right_1.png',
-            'knight_idle_right_2.png',
-            'knight_idle_right_3.png'
+            'hero_idle_right_0.png',
+            'hero_idle_right_1.png',
+            'hero_idle_right_2.png',
+            'hero_idle_right_3.png'
         ]
 
         self.animations['walk_right'] = [
-            'knight_walk_right_0.png',
-            'knight_walk_right_1.png',
-            'knight_walk_right_2.png',
-            'knight_walk_right_3.png',
-            'knight_walk_right_4.png',
-            'knight_walk_right_3.png',
-            'knight_walk_right_2.png',
-            'knight_walk_right_1.png'
+            'hero_run_right_0.png',
+            'hero_run_right_1.png',
+            'hero_run_right_2.png',
+            'hero_run_right_3.png',
+            'hero_run_right_4.png',
+            'hero_run_right_5.png',
         ]
 
         self.animations['idle_left'] = [
-            'knight_idle_left_0.png',
-            'knight_idle_left_1.png',
-            'knight_idle_left_2.png',
-            'knight_idle_left_3.png'
+            'hero_idle_left_0.png',
+            'hero_idle_left_1.png',
+            'hero_idle_left_2.png',
+            'hero_idle_left_3.png'
         ]
 
         self.animations['walk_left'] = [
-            'knight_walk_left_0.png',
-            'knight_walk_left_1.png',
-            'knight_walk_left_2.png',
-            'knight_walk_left_3.png',
-            'knight_walk_left_4.png',
-            'knight_walk_left_3.png',
-            'knight_walk_left_2.png',
-            'knight_walk_left_1.png'
+            'hero_run_left_0.png',
+            'hero_run_left_1.png',
+            'hero_run_left_2.png',
+            'hero_run_left_3.png',
+            'hero_run_left_4.png',
+            'hero_run_left_5.png',
         ]
 
         self.current_animation = self.animations['idle_right']
