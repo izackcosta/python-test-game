@@ -6,7 +6,7 @@ class Player(GameActor):
 
     def __init__(self, grid, scenario):
 
-        super().__init__('hero_idle_right_0', 1, 9, grid, 2)
+        super().__init__('hero_idle_right_0', 1, 0, grid, 2)
 
         self.animations['idle_right'] = [
             'hero_idle_right_0.png',
@@ -48,8 +48,20 @@ class Player(GameActor):
 
         self.score = 0
 
+        self.gravity = 10
+
+        self.delta = 0
+
+        self.grounded = False
+
+        self.jump_accumulator = 0
+
+        self.last_position = (self.x, self.y)
+
     def update(self):
+        self.last_position = (self.x, self.y)
         self.process_player_input()
+        self.process_gravity()
         self.process_collisions()
 
     def process_player_input(self):
@@ -71,8 +83,23 @@ class Player(GameActor):
 
         else:
             self.current_animation = self.animations['idle_left']
+
+        if keyboard.z and self.grounded:
+            self.jump_accumulator += 0.2
+            if self.jump_accumulator > 0.7:
+                self.jump_accumulator = 0.7
+                self.delta = -self.jump_accumulator
+                self.jump_accumulator = 0
+                self.grounded = False
+
+        if keyboard.z == False and self.jump_accumulator > 0 and self.grounded:
+            self.delta = -self.jump_accumulator
+            self.jump_accumulator = 0
+            self.grounded = False
     
     def process_collisions(self):
+
+        grounded = False
 
         for prop in self.scenario.props:
             
@@ -80,4 +107,19 @@ class Player(GameActor):
 
                 if  isinstance(prop, Pickable):
                     prop.pick(self, self.scenario)
-                    break
+                    continue
+            
+                if self.bottom > prop.top:
+                    grounded = True
+                self.pos = self.last_position
+                self.delta = 0
+        
+        self.grounded = grounded
+
+                
+
+    def process_gravity(self):
+        if self.grounded:
+            return
+        self.y += self.gravity * self.delta
+        self.delta += 1 / 60
