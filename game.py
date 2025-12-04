@@ -133,31 +133,32 @@ def draw():
     screen.fill((0, 255, 255))
 
     if game['state'] == GameState['MENU']:
-        screen.draw.text('START GAME', center=(WIDTH//2, (HEIGHT//2) - 100), color='yellow', fontsize=50, background='red')
+        screen.draw.text('START GAME', center=(WIDTH//2, (HEIGHT//2) - 100), color='yellow', fontsize=50, background='red', fontname = 'pixel_font')
         muted = 'ON' if game['muted'] else 'OFF'
-        screen.draw.text(f'MUTE: {muted}', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50, background='red')
-        screen.draw.text('EXIT', center=(WIDTH//2, (HEIGHT//2 + 100)), color='yellow', fontsize=50, background='red')
+        screen.draw.text(f'MUTE: {muted}', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50, background='red', fontname = 'pixel_font')
+        screen.draw.text('EXIT', center=(WIDTH//2, (HEIGHT//2 + 100)), color='yellow', fontsize=50, background='red', fontname = 'pixel_font')
+        screen.draw.text('instructions: use the arrow keys to move and "Z" to jump', center=(WIDTH//2, (HEIGHT//2 + 200)), color='red', fontsize=12, fontname = 'pixel_font')
         return
 
     if game['state'] == GameState['PLAYING']:
         main_scenario.draw()
         player.draw()
-        screen.draw.text(f'Score: {game["score"]}', (500, 10), color='yellow', fontname = 'pixel_font')
+        screen.draw.text(f'Score: {game["score"]}', (500, 10), color='red', fontname = 'pixel_font')
         return
 
     if game['restart_text_blink_timer'] != 0 and game['restart_text_blink_timer'] % restart_text_blink_interval == 0:
         game['restart_text_visible'] = not game['restart_text_visible']
 
     if game['state'] == GameState['GAME_OVER']:
-        screen.draw.text('GAME OVER!', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50)
+        screen.draw.text('GAME OVER!', center=(WIDTH//2, (HEIGHT//2)), color='red', fontsize=50, fontname = 'pixel_font')
         if game['restart_text_visible']:
-            screen.draw.text('press "R" to restart game', center=(WIDTH//2, (HEIGHT//2) + 60), color='yellow', fontsize=25)
+            screen.draw.text('press "R" to restart game', center=(WIDTH//2, (HEIGHT//2) + 60), color='red', fontsize=12, fontname = 'pixel_font')
 
     if game['state'] == GameState['WIN']:
-        screen.draw.text(f'YOU WON!', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50)
-        screen.draw.text(f'final score: {game["score"]}', center=(WIDTH//2, (HEIGHT//2) + 60), color='yellow', fontsize=25)
+        screen.draw.text(f'YOU WON!', center=(WIDTH//2, (HEIGHT//2)), color='red', fontsize=50, fontname = 'pixel_font')
+        screen.draw.text(f'final score: {game["score"]}', center=(WIDTH//2, (HEIGHT//2) + 60), color='red', fontsize=12, fontname = 'pixel_font')
         if game['restart_text_visible']:
-            screen.draw.text('press "R" to restart game', center=(WIDTH//2, (HEIGHT//2) + 100), color='yellow', fontsize=25)
+            screen.draw.text('press "R" to restart game', center=(WIDTH//2, (HEIGHT//2) + 100), color='red', fontsize=12, fontname = 'pixel_font')
 
     game['restart_text_blink_timer'] += 1
 
