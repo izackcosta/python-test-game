@@ -47,7 +47,7 @@ class Player(GameActor):
 
         self.score = 0
 
-        self.gravity = 10
+        self.gravity = 15
 
         self.delta = 0
 
@@ -58,6 +58,8 @@ class Player(GameActor):
         self.last_position = (self.x, self.y)
 
         self.alive = True
+
+        self.debug_immortal = True
 
     def draw(self):
         if not self.alive:
@@ -93,9 +95,9 @@ class Player(GameActor):
             self.current_animation = self.animations['idle_left']
 
         if keyboard.z and self.grounded:
-            self.jump_accumulator += 0.2
-            if self.jump_accumulator > 0.5:
-                self.jump_accumulator = 0.5
+            self.jump_accumulator += 0.15
+            if self.jump_accumulator > 0.4:
+                self.jump_accumulator = 0.4
                 self.delta = -self.jump_accumulator
                 self.jump_accumulator = 0
                 self.grounded = False
@@ -117,8 +119,9 @@ class Player(GameActor):
                     prop.pick(self, self.scenario)
                     continue
 
-                if isinstance(prop, Enemy):
+                if isinstance(prop, Enemy) and not self.debug_immortal:
                     self.alive = False
+                    continue
             
                 if self.bottom > prop.top:
                     grounded = True
