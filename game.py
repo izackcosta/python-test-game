@@ -8,20 +8,21 @@ from goblin import Goblin
 from fly import Fly
 from magic_fruit import MagicFruit
 from door import Door
-from enum import Enum
 from pgzero.rect import Rect
 
 WIDTH = 800
 HEIGHT = 640
 
-class GameState(Enum):
-    MENU = 1
-    PLAYING = 2
-    GAME_OVER = 3
+GameState ={
+    'MENU'      : 1,
+    'PLAYING'   : 2,
+    'GAME_OVER' : 3,
+    'WIN'       : 4
+}
 
 game = {
     'score' : 0,
-    'state' : GameState.MENU,
+    'state' : GameState['MENU'],
     'muted' : False
 }
 
@@ -119,32 +120,32 @@ def draw():
 
     screen.fill((0, 255, 255))
 
-    if game['state'] == GameState.MENU:
+    if game['state'] == GameState['MENU']:
         screen.draw.text('START GAME', center=(WIDTH//2, (HEIGHT//2) - 100), color='yellow', fontsize=50, background='red')
         muted = 'ON' if game['muted'] else 'OFF'
         screen.draw.text(f'MUTE: {muted}', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50, background='red')
         screen.draw.text('EXIT', center=(WIDTH//2, (HEIGHT//2 + 100)), color='yellow', fontsize=50, background='red')
 
-    if game['state'] == GameState.PLAYING:
+    if game['state'] == GameState['PLAYING']:
         main_scenario.draw()
         player.draw()
         screen.draw.text(f'Score: {game["score"]}', (500, 10), color='yellow', fontname = 'pixel_font')
 
 def update():
 
-    if game['state'] == GameState.MENU:
+    if game['state'] == GameState['MENU']:
         pass
 
-    if game['state'] == GameState.PLAYING:
+    if game['state'] == GameState['PLAYING']:
         player.update()
         main_scenario.update()
 
 def on_mouse_down(pos):
 
-    if game['state'] == GameState.MENU:
+    if game['state'] == GameState['MENU']:
         
         if start_game_rect.collidepoint(pos):
-            game['state'] = GameState.PLAYING
+            game['state'] = GameState['PLAYING']
 
         if mute_rect.collidepoint(pos):
             game['muted'] = not game['muted']
