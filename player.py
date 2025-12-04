@@ -5,7 +5,7 @@ from enemy import Enemy
 
 class Player(GameActor):
 
-    def __init__(self, grid, scenario):
+    def __init__(self, grid, scenario, game):
 
         super().__init__('hero_idle_right_0', 1, 18, grid, 2)
 
@@ -45,8 +45,6 @@ class Player(GameActor):
 
         self.scenario = scenario
 
-        self.score = 0
-
         self.gravity = 15
 
         self.delta = 0
@@ -60,6 +58,8 @@ class Player(GameActor):
         self.alive = True
 
         self.debug_immortal = True
+
+        self.game = game
 
     def draw(self):
         if not self.alive:

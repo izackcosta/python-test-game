@@ -7,5 +7,5 @@ class Pickable(Prop):
         self.points = points
 
     def pick(self, player, scenario):
-        player.score += self.points
+        player.game['score'] += self.points
         scenario.remove_prop(self)

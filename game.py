@@ -9,6 +9,7 @@ from fly import Fly
 from magic_fruit import MagicFruit
 from door import Door
 from enum import Enum
+from pgzero.rect import Rect
 
 WIDTH = 800
 HEIGHT = 640
@@ -23,6 +24,10 @@ game = {
     'state' : GameState.MENU,
     'muted' : False
 }
+
+start_game_rect = Rect((289,203), (225,34))
+mute_rect = Rect((305,303), (189,34))
+exit_rect = Rect((359,403), (83,34))
 
 grid = Grid(WIDTH, HEIGHT, 32)
 
@@ -108,7 +113,7 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Door(5, 0, grid)
                 ])
 
-player = Player(grid, main_scenario)
+player = Player(grid, main_scenario, game)
 
 def draw():
 
@@ -119,12 +124,11 @@ def draw():
         muted = 'ON' if game['muted'] else 'OFF'
         screen.draw.text(f'MUTE: {muted}', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50, background='red')
         screen.draw.text('EXIT', center=(WIDTH//2, (HEIGHT//2 + 100)), color='yellow', fontsize=50, background='red')
-        pass
 
     if game['state'] == GameState.PLAYING:
         main_scenario.draw()
         player.draw()
-        screen.draw.text(f'Score: {player.score}', (500, 10), color='yellow', fontname = 'pixel_font')
+        screen.draw.text(f'Score: {game["score"]}', (500, 10), color='yellow', fontname = 'pixel_font')
 
 def update():
 
@@ -134,3 +138,16 @@ def update():
     if game['state'] == GameState.PLAYING:
         player.update()
         main_scenario.update()
+
+def on_mouse_down(pos):
+
+    if game['state'] == GameState.MENU:
+        
+        if start_game_rect.collidepoint(pos):
+            game['state'] = GameState.PLAYING
+
+        if mute_rect.collidepoint(pos):
+            game['muted'] = not game['muted']
+
+        if exit_rect.collidepoint(pos):
+            exit()
