@@ -6,6 +6,7 @@ from scenario import Scenario
 from mushroom import Mushroom
 from goblin import Goblin
 from fly import Fly
+from magic_fruit import MagicFruit
 
 WIDTH = 800
 HEIGHT = 640
@@ -53,15 +54,15 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 9, 15, grid),
                 Platform('grass_platform.png', 8, 15, grid),
                 Goblin(10, 14, grid, (12, 8)),
-                Platform('grass_platform.png', 6, 13, grid),
+                Platform('grass_platform.png', 7, 13, grid),
                 Platform('grass_platform.png', 4, 12, grid),
                 Platform('grass_platform.png', 3, 12, grid),
                 Platform('grass_platform.png', 2, 12, grid),
                 Platform('grass_platform.png', 1, 12, grid),
                 Platform('grass_platform.png', 0, 12, grid),
-                Platform('grass_platform.png', 6, 10, grid),
+                Platform('grass_platform.png', 7, 10, grid),
                 Goblin(0, 11, grid, (4, 0)),
-                Coin(0, 11, grid),
+                MagicFruit(0, 11, grid),
                 ])
 
 player = Player(grid, main_scenario)

@@ -4,7 +4,7 @@ class Coin(Pickable):
 
     def __init__(self, x, y, grid):
 
-        super().__init__('coin_0', x, y, grid)
+        super().__init__('coin_0', x, y, grid, 100)
 
         self.animations['spin'] = [
             'coin_0.png',
@@ -22,7 +22,3 @@ class Coin(Pickable):
         ]
 
         self.current_animation = self.animations['spin']
-
-    def pick(self, player, scenario):
-        player.score += 100
-        super().pick(player, scenario)
