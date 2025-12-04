@@ -109,8 +109,6 @@ class Player(GameActor):
     
     def process_collisions(self):
 
-        grounded = False
-
         for prop in self.scenario.props:
             
             if self.colliderect(prop):
@@ -122,18 +120,19 @@ class Player(GameActor):
                 if isinstance(prop, Enemy) and not self.debug_immortal:
                     self.alive = False
                     continue
-            
-                if self.bottom > prop.top:
-                    grounded = True
-                self.pos = self.last_position
-                self.delta = 0
-        
-        self.grounded = grounded
-
-                
 
     def process_gravity(self):
-        if self.grounded:
-            return
         self.y += self.gravity * self.delta
+        for prop in self.scenario.props:
+            if isinstance(prop, Pickable) or isinstance(prop, Enemy):
+                continue
+            while self.colliderect(prop):
+                if  abs(self.bottom - prop.top) < abs(self.top - prop.bottom):
+                    self.y -= 1
+                    self.grounded = True
+                else:
+                    self.y += 1
+                self.delta = 0
+                return
+        self.grounded = False
         self.delta += 1 / 60
