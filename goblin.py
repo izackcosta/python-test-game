@@ -1,8 +1,8 @@
 from patrol_enemy import PatrolEnemy
 
 class Goblin(PatrolEnemy):
-    def __init__(self, x, y, grid, patrol_points):
-        super().__init__('goblin_right_0', x, y, grid, 2, patrol_points)
+    def __init__(self, x, y, grid, patrol_points, game):
+        super().__init__('goblin_right_0', x, y, grid, 2, patrol_points, game)
 
         self.animations['walk_right'] = [
             'goblin_right_0.png',

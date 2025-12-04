@@ -1,4 +1,5 @@
 from pgzero.actor import Actor
+from pgzero.rect import Rect
 
 class GameActor(Actor):
     
@@ -30,19 +31,28 @@ class GameActor(Actor):
         self.current_animation = None
 
         self.initial_position = (x,y)
+
+        self.debug_rect = False
+
+        self.bound_rect = Rect(self.left, self.top, self.width, self.height)
     
     def draw(self):
         self.animation_timer += 1
         if self.animation_timer % GameActor.Framerate == 0 and self.current_animation:
             self.current_frame = (self.current_frame + 1) % len(self.current_animation)
             self.image = self.current_animation[self.current_frame]
+        if self.debug_rect:
+            self.debug_draw_rect()
         super().draw()
 
     def update(self):
-        pass
+        self.bound_rect.update(self.left, self.top, self.width, self.height)
 
     def move(self, dx):
         self.x += dx * self.speed
 
     def restart(self):
         pass
+
+    def debug_draw_rect(self):
+        self.game['debug_draw_rect'](self.bound_rect)

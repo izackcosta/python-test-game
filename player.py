@@ -74,6 +74,7 @@ class Player(GameActor):
         self.process_player_input()
         self.process_gravity()
         self.process_collisions()
+        super().update()
 
     def process_player_input(self):
 

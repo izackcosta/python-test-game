@@ -2,10 +2,11 @@ from game_actor import GameActor
 
 class Enemy(GameActor):
 
-    def __init__(self, image, x, y, grid, speed, initial_direction):
+    def __init__(self, image, x, y, grid, speed, initial_direction, game):
         super().__init__(image, x, y, grid, speed)
         self.initial_direction = initial_direction
         self.direction = self.initial_direction
+        self.game = game
 
     def restart(self):
         self.direction = self.initial_direction

@@ -2,9 +2,9 @@ from enemy import Enemy
 
 class Mushroom(Enemy):
 
-    def __init__(self, x, y, grid, initial_direction):
+    def __init__(self, x, y, grid, initial_direction, game):
         
-        super().__init__('mushroom_right_0', x, y, grid, 1, initial_direction)
+        super().__init__('mushroom_right_0', x, y, grid, 1, initial_direction, game)
 
         self.animations['walk_right'] = [
             'mushroom_right_0.png',
@@ -32,6 +32,7 @@ class Mushroom(Enemy):
 
     def update(self):
         self.move(self.direction)
+        super().update()
 
     def restart(self):
         super().restart()

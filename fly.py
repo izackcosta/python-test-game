@@ -1,8 +1,8 @@
 from patrol_enemy import PatrolEnemy
 
 class Fly(PatrolEnemy):
-    def __init__(self, x, y, grid, patrol_points):
-        super().__init__('fly_right_0', x, y, grid, 4, patrol_points)
+    def __init__(self, x, y, grid, patrol_points, game):
+        super().__init__('fly_right_0', x, y, grid, 4, patrol_points, game)
 
         self.animations['walk_right'] = [
             'fly_right_0.png',
