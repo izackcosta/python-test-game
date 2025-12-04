@@ -24,3 +24,8 @@ class PatrolEnemy(Enemy):
             self.current_point_index = (self.current_point_index + 1) % len(self.patrol_points)
             self.go_to_next_point()
         self.current_animation = self.animations['walk_right'] if self.direction == 1 else self.animations['walk_left']
+
+    def restart(self):
+        super().restart()
+        self.current_point_index = 0
+        self.go_to_next_point()

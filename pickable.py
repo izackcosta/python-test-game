@@ -6,8 +6,19 @@ class Pickable(Prop):
         super().__init__(image, x, y, grid)
         self.points = points
         self.game = game
+        self.picked = False
 
-    def pick(self, scenario):
+    def draw(self):
+        if self.picked:
+            return
+        super().draw()
+
+    def pick(self):
+        if self.picked:
+            return
         self.game['score'] += self.points
         self.game['play_pickable_sound']()
-        scenario.remove_prop(self)
+        self.picked = True
+
+    def restart(self):
+        self.picked = False

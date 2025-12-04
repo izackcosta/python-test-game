@@ -28,6 +28,8 @@ class GameActor(Actor):
         self.current_frame = 0
 
         self.current_animation = None
+
+        self.initial_position = (x,y)
     
     def draw(self):
         self.animation_timer += 1
@@ -41,3 +43,6 @@ class GameActor(Actor):
 
     def move(self, dx):
         self.x += dx * self.speed
+
+    def restart(self):
+        pass

@@ -24,11 +24,22 @@ game = {
     'score' : 0,
     'state' : GameState['MENU'],
     'muted' : False,
+    'restart_text_blink_timer' : 0,
+    'restart_text_visible' : True
 }
+
+def restart_game():
+    game['state'] = GameState['MENU']
+    game['score'] = 0
+    player.restart()
+    for prop in main_scenario.props:
+        prop.restart()
 
 start_game_rect = Rect((289,203), (225,34))
 mute_rect = Rect((305,303), (189,34))
 exit_rect = Rect((359,403), (83,34))
+
+restart_text_blink_interval = 24
 
 grid = Grid(WIDTH, HEIGHT, 32)
 
@@ -127,18 +138,29 @@ def draw():
         muted = 'ON' if game['muted'] else 'OFF'
         screen.draw.text(f'MUTE: {muted}', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50, background='red')
         screen.draw.text('EXIT', center=(WIDTH//2, (HEIGHT//2 + 100)), color='yellow', fontsize=50, background='red')
+        return
 
     if game['state'] == GameState['PLAYING']:
         main_scenario.draw()
         player.draw()
         screen.draw.text(f'Score: {game["score"]}', (500, 10), color='yellow', fontname = 'pixel_font')
+        return
+
+    if game['restart_text_blink_timer'] != 0 and game['restart_text_blink_timer'] % restart_text_blink_interval == 0:
+        game['restart_text_visible'] = not game['restart_text_visible']
 
     if game['state'] == GameState['GAME_OVER']:
         screen.draw.text('GAME OVER!', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50)
+        if game['restart_text_visible']:
+            screen.draw.text('press "R" to restart game', center=(WIDTH//2, (HEIGHT//2) + 60), color='yellow', fontsize=25)
 
     if game['state'] == GameState['WIN']:
         screen.draw.text(f'YOU WON!', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50)
         screen.draw.text(f'final score: {game["score"]}', center=(WIDTH//2, (HEIGHT//2) + 60), color='yellow', fontsize=25)
+        if game['restart_text_visible']:
+            screen.draw.text('press "R" to restart game', center=(WIDTH//2, (HEIGHT//2) + 100), color='yellow', fontsize=25)
+
+    game['restart_text_blink_timer'] += 1
 
 def update():
 
@@ -148,6 +170,10 @@ def update():
     if game['state'] == GameState['PLAYING']:
         player.update()
         main_scenario.update()
+
+    if game['state'] == GameState['GAME_OVER'] or game['state'] == GameState['WIN']:
+        if keyboard.r:
+            restart_game()
 
 def on_mouse_down(pos):
 

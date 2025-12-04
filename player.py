@@ -58,7 +58,7 @@ class Player(GameActor):
 
         self.alive = True
 
-        self.debug_immortal = False
+        self.debug_immortal = True
 
         self.game = game
 
@@ -117,7 +117,7 @@ class Player(GameActor):
             if self.colliderect(prop):
 
                 if  isinstance(prop, Pickable):
-                    prop.pick(self.scenario)
+                    prop.pick()
                     continue
 
                 if isinstance(prop, Enemy) and not self.debug_immortal:
@@ -144,3 +144,9 @@ class Player(GameActor):
         self.game['play_die_sound']()
         self.alive = False
         clock.schedule(self.game['call_game_over'], 2)
+
+    def restart(self):
+        self.grid.position_in_cell(self, self.initial_position[0], self.initial_position[1])
+        self.direction = GameActor.Direction['RIGHT']
+        self.current_animation = self.animations['idle_right']
+        self.alive = True

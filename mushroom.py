@@ -33,3 +33,7 @@ class Mushroom(Enemy):
     def update(self):
         self.move(self.direction)
 
+    def restart(self):
+        super().restart()
+        self.current_animation = self.animations['walk_right'] if self.direction == 1 else self.animations['walk_left']
+
