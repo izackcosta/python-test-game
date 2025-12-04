@@ -54,11 +54,9 @@ class Player(GameActor):
 
         self.jump_accumulator = 0
 
-        self.last_position = (self.x, self.y)
-
         self.alive = True
 
-        self.debug_immortal = True
+        self.debug_immortal = False
 
         self.game = game
 
@@ -70,10 +68,9 @@ class Player(GameActor):
     def update(self):
         if not self.alive:
             return
-        self.last_position = (self.x, self.y)
         self.process_player_input()
         self.process_gravity()
-        self.process_collisions()
+        self.process_item_pick()
         super().update()
 
     def process_player_input(self):
@@ -83,12 +80,16 @@ class Player(GameActor):
                 self.current_animation = self.animations['walk_right']
                 self.direction = GameActor.Direction['RIGHT']
             self.move(self.direction)
+            if not self.validate_movement():
+                self.move(-self.direction)
 
         elif keyboard.left:
             if self.current_animation != self.animations['walk_left']:
                 self.current_animation = self.animations['walk_left']
                 self.direction = GameActor.Direction['LEFT']
             self.move(self.direction)
+            if not self.validate_movement():
+                self.move(-self.direction)
 
         elif self.direction == GameActor.Direction['RIGHT']:
             self.current_animation = self.animations['idle_right']
@@ -111,7 +112,7 @@ class Player(GameActor):
             self.jump_accumulator = 0
             self.grounded = False
     
-    def process_collisions(self):
+    def process_item_pick(self):
 
         for prop in self.scenario.props:
             
@@ -130,16 +131,23 @@ class Player(GameActor):
         for prop in self.scenario.props:
             if isinstance(prop, Pickable) or isinstance(prop, Enemy):
                 continue
-            while self.colliderect(prop):
+            if self.colliderect(prop):
+                self.y -= self.gravity * self.delta
                 if  abs(self.bottom - prop.top) < abs(self.top - prop.bottom):
-                    self.y -= 1
                     self.grounded = True
                 else:
-                    self.y += 1
-                self.delta = 0
+                    self.delta = 0
                 return
         self.grounded = False
         self.delta += 1 / 60
+
+    def validate_movement(self):
+        for prop in self.scenario.props:
+            if isinstance(prop, Pickable) or isinstance(prop, Enemy):
+                continue
+            if self.colliderect(prop):
+                return False
+        return True
 
     def die(self):
         self.game['play_die_sound']()

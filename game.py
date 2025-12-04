@@ -45,7 +45,7 @@ grid = Grid(WIDTH, HEIGHT, 32)
 
 main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 2, 19, grid), 
-                Platform('grass_platform.png', 3, 19, grid), 
+                Platform('grass_platform.png', 3, 19, grid),
                 Coin(3, 18, grid, game), 
                 Platform('grass_platform.png', 4, 19, grid),
                 Platform('grass_platform.png', 5, 19, grid),
