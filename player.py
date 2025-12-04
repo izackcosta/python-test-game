@@ -72,6 +72,8 @@ class Player(GameActor):
         self.process_gravity()
         self.process_item_pick()
         super().update()
+        if self.y > 1000:
+            self.game['call_game_over']()
 
     def process_player_input(self):
 
@@ -159,3 +161,5 @@ class Player(GameActor):
         self.direction = GameActor.Direction['RIGHT']
         self.current_animation = self.animations['idle_right']
         self.alive = True
+        self.delta = 0
+        self.jump_accumulator = 0
