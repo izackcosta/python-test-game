@@ -2,9 +2,9 @@ from pickable import Pickable
 
 class Coin(Pickable):
 
-    def __init__(self, x, y, grid):
+    def __init__(self, x, y, grid, game):
 
-        super().__init__('coin_0', x, y, grid, 100)
+        super().__init__('coin_0', x, y, grid, 100, game)
 
         self.animations['spin'] = [
             'coin_0.png',

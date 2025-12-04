@@ -58,7 +58,7 @@ class Player(GameActor):
 
         self.alive = True
 
-        self.debug_immortal = True
+        self.debug_immortal = False
 
         self.game = game
 
@@ -98,12 +98,14 @@ class Player(GameActor):
         if keyboard.z and self.grounded:
             self.jump_accumulator += 0.15
             if self.jump_accumulator > 0.4:
+                self.game['play_jump_sound']()
                 self.jump_accumulator = 0.4
                 self.delta = -self.jump_accumulator
                 self.jump_accumulator = 0
                 self.grounded = False
 
         if keyboard.z == False and self.jump_accumulator > 0 and self.grounded:
+            self.game['play_jump_sound']()
             self.delta = -self.jump_accumulator
             self.jump_accumulator = 0
             self.grounded = False
@@ -115,12 +117,11 @@ class Player(GameActor):
             if self.colliderect(prop):
 
                 if  isinstance(prop, Pickable):
-                    prop.pick(self, self.scenario)
+                    prop.pick(self.scenario)
                     continue
 
                 if isinstance(prop, Enemy) and not self.debug_immortal:
-                    self.alive = False
-                    clock.schedule(self.game['call_game_over'], 2)
+                    self.die()
                     continue
 
     def process_gravity(self):
@@ -138,3 +139,8 @@ class Player(GameActor):
                 return
         self.grounded = False
         self.delta += 1 / 60
+
+    def die(self):
+        self.game['play_die_sound']()
+        self.alive = False
+        clock.schedule(self.game['call_game_over'], 2)

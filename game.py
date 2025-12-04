@@ -35,7 +35,7 @@ grid = Grid(WIDTH, HEIGHT, 32)
 main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 2, 19, grid), 
                 Platform('grass_platform.png', 3, 19, grid), 
-                Coin(3, 18, grid), 
+                Coin(3, 18, grid, game), 
                 Platform('grass_platform.png', 4, 19, grid),
                 Platform('grass_platform.png', 5, 19, grid),
                 Platform('grass_platform.png', 0, 19, grid),
@@ -44,8 +44,8 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 8, 19, grid),
                 Platform('grass_platform.png', 11, 19, grid),
                 Platform('grass_platform.png', 12, 19, grid),
-                Coin(5, 18, grid),
-                Coin(7, 18, grid),
+                Coin(5, 18, grid, game),
+                Coin(7, 18, grid, game),
                 Mushroom(5, 18, grid, -1),
                 Mushroom(8, 18, grid, -1),
                 Platform('grass_platform.png', 15, 19, grid),
@@ -53,7 +53,7 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 19, 19, grid),
                 Platform('grass_platform.png', 20, 19, grid),
                 Platform('grass_platform.png', 21, 19, grid),
-                Coin(21, 18, grid),
+                Coin(21, 18, grid, game),
                 Platform('grass_platform.png', 22, 19, grid),
                 Platform('grass_platform.png', 23, 19, grid),
                 Platform('grass_platform.png', 24, 19, grid),
@@ -62,12 +62,12 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 21, 15, grid),
                 Fly(12, 14, grid, (0, 24)),
                 Platform('grass_platform.png', 18, 15, grid),
-                Coin(18, 14, grid),
+                Coin(18, 14, grid, game),
                 Platform('grass_platform.png', 15, 15, grid),
                 Platform('grass_platform.png', 12, 15, grid),
                 Platform('grass_platform.png', 11, 15, grid),
                 Platform('grass_platform.png', 10, 15, grid),
-                Coin(10, 14, grid),
+                Coin(10, 14, grid, game),
                 Platform('grass_platform.png', 9, 15, grid),
                 Platform('grass_platform.png', 8, 15, grid),
                 Goblin(10, 14, grid, (12, 8)),
@@ -80,24 +80,24 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 7, 10, grid),
                 Platform('sand_platform.png', 9, 9, grid),
                 Goblin(0, 11, grid, (4, 0)),
-                MagicFruit(0, 11, grid),
+                MagicFruit(0, 11, grid, game),
                 Fly(0, 8, grid, (24, 0)),
                 Fly(24, 8, grid, (0, 24)),
                 #Fly(13, 8, grid, (0, 24)),
                 Platform('sand_platform.png', 12, 9, grid),
-                Coin(12, 8, grid),
+                Coin(12, 8, grid, game),
                 Platform('sand_platform.png', 15, 9, grid),
                 Platform('sand_platform.png', 18, 9, grid),
-                Coin(18, 8, grid),
+                Coin(18, 8, grid, game),
                 Platform('sand_platform.png', 21, 7, grid),
                 Fly(0, 4, grid, (24, 0)),
                 Fly(24, 4, grid, (0, 24)),
                 Fly(13, 4, grid, (0, 24)),
                 Platform('sand_platform.png', 12, 5, grid),
-                Coin(12, 4, grid),
+                Coin(12, 4, grid, game),
                 Platform('sand_platform.png', 15, 5, grid),
                 Platform('sand_platform.png', 18, 5, grid),
-                Coin(18, 4, grid),
+                Coin(18, 4, grid, game),
                 Platform('stone_platform.png', 10, 3, grid),
                 Platform('stone_platform.png', 9, 3, grid),
                 Platform('stone_platform.png', 8, 3, grid),
@@ -109,12 +109,14 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('stone_platform.png', 2, 3, grid),
                 Goblin(10, 2, grid, (2, 10)),
                 Goblin(2, 2, grid, (10, 2)),
-                MagicFruit(2, 2, grid),
+                MagicFruit(2, 2, grid, game),
                 Platform('stone_platform.png', 5, 1, grid),
-                Door(5, 0, grid)
+                Door(5, 0, grid, game)
                 ])
 
 player = Player(grid, main_scenario, game)
+
+music.play('main_theme.mp3')
 
 def draw():
 
@@ -156,6 +158,8 @@ def on_mouse_down(pos):
 
         if mute_rect.collidepoint(pos):
             game['muted'] = not game['muted']
+            volume = 0 if game['muted'] else 100
+            music.set_volume(volume)
 
         if exit_rect.collidepoint(pos):
             exit()
@@ -169,3 +173,21 @@ def call_game_over_screen():
     game['state'] = GameState['GAME_OVER']
 
 game['call_game_over'] = call_game_over_screen
+
+def play_pickable_sound():
+    if not game['muted']:
+        sounds.coin.play()
+
+game['play_pickable_sound'] = play_pickable_sound
+
+def play_jump_sound():
+    if not game['muted']:
+        sounds.jump.play()
+
+game['play_jump_sound'] = play_jump_sound
+
+def play_die_sound():
+    if not game['muted']:
+        sounds.hurt.play()
+
+game['play_die_sound'] = play_die_sound
