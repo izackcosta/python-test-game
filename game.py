@@ -7,11 +7,22 @@ from mushroom import Mushroom
 from goblin import Goblin
 from fly import Fly
 from magic_fruit import MagicFruit
+from door import Door
+from enum import Enum
 
 WIDTH = 800
 HEIGHT = 640
 
-score = 0
+class GameState(Enum):
+    MENU = 1
+    PLAYING = 2
+    GAME_OVER = 3
+
+game = {
+    'score' : 0,
+    'state' : GameState.MENU,
+    'muted' : False
+}
 
 grid = Grid(WIDTH, HEIGHT, 32)
 
@@ -61,19 +72,65 @@ main_scenario = Scenario([Platform('grass_platform.png', 1, 19, grid),
                 Platform('grass_platform.png', 1, 12, grid),
                 Platform('grass_platform.png', 0, 12, grid),
                 Platform('grass_platform.png', 7, 10, grid),
+                Platform('sand_platform.png', 9, 9, grid),
                 Goblin(0, 11, grid, (4, 0)),
                 MagicFruit(0, 11, grid),
+                Fly(0, 8, grid, (24, 0)),
+                Fly(24, 8, grid, (0, 24)),
+                #Fly(13, 8, grid, (0, 24)),
+                Platform('sand_platform.png', 12, 9, grid),
+                Coin(12, 8, grid),
+                Platform('sand_platform.png', 15, 9, grid),
+                Platform('sand_platform.png', 18, 9, grid),
+                Coin(18, 8, grid),
+                Platform('sand_platform.png', 21, 7, grid),
+                Fly(0, 4, grid, (24, 0)),
+                Fly(24, 4, grid, (0, 24)),
+                Fly(13, 4, grid, (0, 24)),
+                Platform('sand_platform.png', 12, 5, grid),
+                Coin(12, 4, grid),
+                Platform('sand_platform.png', 15, 5, grid),
+                Platform('sand_platform.png', 18, 5, grid),
+                Coin(18, 4, grid),
+                Platform('stone_platform.png', 10, 3, grid),
+                Platform('stone_platform.png', 9, 3, grid),
+                Platform('stone_platform.png', 8, 3, grid),
+                Platform('stone_platform.png', 7, 3, grid),
+                Platform('stone_platform.png', 6, 3, grid),
+                Platform('stone_platform.png', 5, 3, grid),
+                Platform('stone_platform.png', 4, 3, grid),
+                Platform('stone_platform.png', 3, 3, grid),
+                Platform('stone_platform.png', 2, 3, grid),
+                Goblin(10, 2, grid, (2, 10)),
+                Goblin(2, 2, grid, (10, 2)),
+                MagicFruit(2, 2, grid),
+                Platform('stone_platform.png', 5, 1, grid),
+                Door(5, 0, grid)
                 ])
 
 player = Player(grid, main_scenario)
 
 def draw():
+
     screen.fill((0, 255, 255))
-    main_scenario.draw()
-    player.draw()
-    if player:
-        screen.draw.text(f'Score: {player.score}', (10, 10), color='yellow', fontname = 'pixel_font')
+
+    if game['state'] == GameState.MENU:
+        screen.draw.text('START GAME', center=(WIDTH//2, (HEIGHT//2) - 100), color='yellow', fontsize=50, background='red')
+        muted = 'ON' if game['muted'] else 'OFF'
+        screen.draw.text(f'MUTE: {muted}', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50, background='red')
+        screen.draw.text('EXIT', center=(WIDTH//2, (HEIGHT//2 + 100)), color='yellow', fontsize=50, background='red')
+        pass
+
+    if game['state'] == GameState.PLAYING:
+        main_scenario.draw()
+        player.draw()
+        screen.draw.text(f'Score: {player.score}', (500, 10), color='yellow', fontname = 'pixel_font')
 
 def update():
-    player.update()
-    main_scenario.update()
+
+    if game['state'] == GameState.MENU:
+        pass
+
+    if game['state'] == GameState.PLAYING:
+        player.update()
+        main_scenario.update()
