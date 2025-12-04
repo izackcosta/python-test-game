@@ -1,4 +1,5 @@
 from pickable import Pickable
+import pgzero.clock as clock
 
 class Door(Pickable):
 
@@ -7,3 +8,4 @@ class Door(Pickable):
 
     def pick(self, player, scenario):
         super().pick(player, scenario)
+        clock.schedule(player.game['call_win'], 2)

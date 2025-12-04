@@ -23,7 +23,7 @@ GameState ={
 game = {
     'score' : 0,
     'state' : GameState['MENU'],
-    'muted' : False
+    'muted' : False,
 }
 
 start_game_rect = Rect((289,203), (225,34))
@@ -131,6 +131,13 @@ def draw():
         player.draw()
         screen.draw.text(f'Score: {game["score"]}', (500, 10), color='yellow', fontname = 'pixel_font')
 
+    if game['state'] == GameState['GAME_OVER']:
+        screen.draw.text('GAME OVER!', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50)
+
+    if game['state'] == GameState['WIN']:
+        screen.draw.text(f'YOU WON!', center=(WIDTH//2, (HEIGHT//2)), color='yellow', fontsize=50)
+        screen.draw.text(f'final score: {game["score"]}', center=(WIDTH//2, (HEIGHT//2) + 60), color='yellow', fontsize=25)
+
 def update():
 
     if game['state'] == GameState['MENU']:
@@ -152,3 +159,13 @@ def on_mouse_down(pos):
 
         if exit_rect.collidepoint(pos):
             exit()
+
+def call_win_screen():
+    game['state'] = GameState['WIN']
+
+game['call_win'] = call_win_screen
+
+def call_game_over_screen():
+    game['state'] = GameState['GAME_OVER']
+
+game['call_game_over'] = call_game_over_screen

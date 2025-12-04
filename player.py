@@ -2,6 +2,7 @@ from game_actor import GameActor
 from pgzero.keyboard import keyboard
 from pickable import Pickable
 from enemy import Enemy
+import pgzero.clock as clock
 
 class Player(GameActor):
 
@@ -119,6 +120,7 @@ class Player(GameActor):
 
                 if isinstance(prop, Enemy) and not self.debug_immortal:
                     self.alive = False
+                    clock.schedule(self.game['call_game_over'], 2)
                     continue
 
     def process_gravity(self):
